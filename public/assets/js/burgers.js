@@ -28,23 +28,37 @@ $(function() {
   $(".create-form").on("submit", function(event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
+    var letters = /^[a-zA-Z]+$/;
+    // var numbers = /^[0-9]+$/
 
-    var newBurger = {
-      burger_name: $("#bg").val().trim(),
-      devoured: $("[name=devour]:checked").val().trim()
-    };
+    if (!$("#bg").val()) {
 
-    console.log(newBurger);
+      alert("Please enter a burger!");
 
-    // Send the POST request.
-    $.post("/api/burgers", newBurger).then(function() {
-        console.log("created new burger");
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
+    } else if ($("#bg").val().match(letters)){
+
+      var newBurger = {
+        burger_name: $("#bg").val().trim(),
+        devoured: $("[name=devour]:checked").val().trim()
+      };
+  
+      console.log(newBurger);
+  
+      // Send the POST request.
+      $.post("/api/burgers", newBurger).then(function() {
+          console.log("created new burger");
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    } else {
+
+      alert("Please enter letters only!");
+    }
+
   });
 
+  // delete a burger block
   $(".delete-burger").on("click", function(event) {
     var id = $(this).data("id");
 
